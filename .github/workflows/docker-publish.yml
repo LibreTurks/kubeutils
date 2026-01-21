@@ -9,8 +9,8 @@ on:
     - cron: "0 13 * * 1"
   
 env:
-  USERNAME: "kreatoo"
-  REPO: "test-project"
+  USERNAME: "LibreTurks"
+  REPO: "kubeutils"
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
   REGISTRY_IMAGE: ghcr.io/${{ github.repository }}
