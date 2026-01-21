@@ -28,7 +28,7 @@ RUN apt update -y && apt install -y jq git curl unzip
 
 RUN curl -fsSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar zxf - -C /usr/local/bin/ --strip-components 1 linux-amd64/helm \
     && curl -fsSL https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.amd64 -o /usr/local/bin/sops \
-    && curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl \
+    && curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/*
 
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
@@ -42,3 +42,5 @@ RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
 RUN curl -f -L -o runner-container-hooks.zip https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip \
     && unzip ./runner-container-hooks.zip -d ./k8s \
     && rm runner-container-hooks.zip
+
+USER runner
