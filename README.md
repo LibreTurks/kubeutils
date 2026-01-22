@@ -2,7 +2,14 @@
 
 # Kubeutils
 A simple and minimal container image based on Debian Bookworm Slim for use in self-hosted CI/CD runners.
-That image includes essential Kubernetes utilities such as helm and kubectl. It also includes SOPS for secret management.
+That image includes essential Kubernetes utilities:
+
+- **kubectl** – Kubernetes command-line tool
+- **helm** – Kubernetes package manager
+- **kubeconform** – Kubernetes manifest validation
+- **kube-linter** – Static analysis for Kubernetes YAML
+- **pluto** – Detect deprecated apiVersions in Kubernetes
+- **sops** – Secrets management
 
 ---
 

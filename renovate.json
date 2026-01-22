@@ -41,6 +41,33 @@
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "helm/helm"
+    },    
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "KUBECONFORM_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "yannh/kubeconform"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "PLUTO_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "FairwindsOps/pluto"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "KUBE_LINTER_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "stackrox/kube-linter"
     }
   ]
 }
