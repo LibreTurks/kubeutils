@@ -1,7 +1,8 @@
 <img src="https://raw.githubusercontent.com/xelab04/ServiceLogos/refs/heads/main/Kubernetes/Kubernetes%20V3.png"  height="100">
 
 # Kubeutils
-Simple and Minimal Image for Kubernetes Environments.
+A simple and minimal container image based on Debian Bookworm Slim for use in self-hosted CI/CD runners.
+That image includes essential Kubernetes utilities such as helm and kubectl. It also includes SOPS for secret management.
 
 ---
 
