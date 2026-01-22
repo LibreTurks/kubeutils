@@ -1,0 +1,46 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":rebaseStalePrs",
+    ":disableRateLimiting"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "RUNNER_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "actions/runner"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "RUNNER_CONTAINER_HOOKS_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "actions/runner-container-hooks"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "SOPS_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "getsops/sops"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["(^|/)([Dd]ocker|[Cc]ontainer)file$"],
+      "matchStrings": [
+        "HELM_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "helm/helm"
+    }
+  ]
+}
