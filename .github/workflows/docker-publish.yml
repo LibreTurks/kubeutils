@@ -33,7 +33,7 @@ jobs:
             platform: linux/arm64
     steps:
       - name: Checkout current repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Get latest tag
         id: latest_tag
@@ -43,7 +43,7 @@ jobs:
           echo "LATEST_TAG=${TAG}" >> $GITHUB_ENV
      
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: ${{ env.USERNAME }}/${{ env.REPO }}
           ref: ${{ env.LATEST_TAG }}
@@ -154,7 +154,7 @@ jobs:
       LATEST_TAG: ${{ needs.build.outputs.latest_tag }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       
       - name: Create and push tag
         env:
