@@ -8,6 +8,7 @@ LABEL org.opencontainers.image.authors="Yağız (saveside), Taha (mt190502)"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.documentation="https://github.com/libreturks/kubeutils/README.md"
 
+ARG TARGETARCH
 ARG TARGETPLATFORM
 ARG RUNNER_VERSION=2.331.0
 ARG RUNNER_CONTAINER_HOOKS_VERSION=0.8.0
@@ -16,6 +17,9 @@ ENV UID=1000
 ENV GID=0
 ENV SOPS_VERSION=v3.11.0
 ENV HELM_VERSION=v4.1.0
+ENV KUBECONFORM_VERSION=v0.7.0
+ENV PLUTO_VERSION=v5.22.7
+ENV KUBE_LINTER_VERSION=v0.8.1
 
 RUN useradd -G 0 runner
 ENV HOME /home/runner
@@ -26,9 +30,19 @@ WORKDIR /home/runner
 
 RUN apt update -y && apt install -y jq git curl unzip
 
-RUN curl -fsSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar zxf - -C /usr/local/bin/ --strip-components 1 linux-amd64/helm \
-    && curl -fsSL https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.amd64 -o /usr/local/bin/sops \
-    && curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o /usr/local/bin/kubectl \
+RUN set -eux; \
+    case "$TARGETARCH" in \
+      amd64) KUBE_LINTER_BIN="kube-linter-linux" ;; \
+      arm64) KUBE_LINTER_BIN="kube-linter-linux-arm64" ;; \
+      *) echo "Unsupported arch: $TARGETARCH" >&2; exit 1 ;; \
+    esac; \
+    \
+    curl -fsSL https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar zxf - -C /usr/local/bin/ --strip-components 1 linux-amd64/helm \
+    && curl -fsSL https://github.com/getsops/sops/releases/download/${SOPS_VERSION}/sops-${SOPS_VERSION}.linux.${TARGETARCH} -o /usr/local/bin/sops \
+    && curl -fsSL https://github.com/stackrox/kube-linter/releases/download/${KUBE_LINTER_VERSION}/${KUBE_LINTER_BIN} -o /usr/local/bin/kube-linter \
+    && curl -fsSL https://github.com/yannh/kubeconform/releases/download/${KUBECONFORM_VERSION}/kubeconform-linux-${TARGETARCH}.tar.gz | tar -xz -C /usr/local/bin kubeconform \
+    && curl -fsSL https://github.com/FairwindsOps/pluto/releases/download/${PLUTO_VERSION}/pluto_${PLUTO_VERSION:1}_linux_${TARGETARCH}.tar.gz | tar -xz -C /usr/local/bin pluto \
+    && curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl" -o /usr/local/bin/kubectl \
     && chmod +x /usr/local/bin/*
 
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
